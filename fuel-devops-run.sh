@@ -16,7 +16,7 @@ bash -x ../fuel-devops-simple/fuel-devops-simple.sh -v $fuelVersion \
         -v $fuelVersion \
         -s settings-${fuelVersion}.py \
         -p $plugin \
-        -D 192.168.123.10,admin,password,2"
+        -D 192.168.122.10,admin,password,2"
 
 # DATE=`date +%Y%d%M_%H%M%S`
 # cd $workDir

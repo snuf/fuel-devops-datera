@@ -27,7 +27,7 @@ def get_var_as_bool(name, default):
 # Default timezone for clear logging
 TIME_ZONE = 'UTC'
 
-ENV_NAME = os.environ.get("ENV_NAME", "fuel_system_test_7")
+ENV_NAME = os.environ.get("ENV_NAME", "fuel_system_test")
 VIRTUAL_ENV = os.environ.get("VIRTUAL_ENV", "")
 
 ISO_PATH = os.environ.get('ISO_PATH')
