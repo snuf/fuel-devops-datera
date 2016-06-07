@@ -98,6 +98,7 @@ if [ ! -e "$settingsFile" ]; then
     exit 1
 fi
 
+workDir=$workDir-$fuelVersion
 origPwd=$PWD
 dateraPrep $dateraOpts 
 cd $workDir/fuel-qa
