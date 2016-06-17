@@ -10,7 +10,7 @@ fi
 # do not blow away our old env, saves some time if we've had a failure...
 export KEEP_BEFORE="yes"
 export KEEP_AFTER="yes"
-plugin=`readlink -f fuel-plugin-datera-cinder-0.1-0.1.51-1.noarch.rpm`
+plugin=`readlink -f fuel-plugin-datera-cinder-1.0-1.0.0-1.noarch.rpm`
 bash -x ../fuel-devops-simple/fuel-devops-simple.sh -v $fuelVersion \
     -S "bash -x fuel-devops-datera.sh \
         -v $fuelVersion \

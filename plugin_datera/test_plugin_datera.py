@@ -359,7 +359,13 @@ class DateraPlugin(TestBasic):
 
             1. Upload the plugin to the master node.
             2. Install the plugin.
-            3. Remove the plugin
+            3. Ensure that the plugin is installed successfully using the CLI.
+            4. Create new environment.
+            5. Enable and configure plugin.
+            6. Run network verification check.
+            7. Delete listed environment.
+            8. Remove the plugin
+            9. Check that it was successfully removed
 
         Duration 10m
         Snapshot datera_plugin_remove
@@ -376,10 +382,40 @@ class DateraPlugin(TestBasic):
             self.env.d_env.get_admin_remote(),
             plugin=os.path.basename(CONF.DATERA_PLUGIN_PATH))
 
+        # double check
         version = self.fetch_plugin_version(
             self.env.d_env.get_admin_remote(),
             pluginname="fuel-plugin-datera-cinder"
         )
+
+        settings = None
+        if CONF.RELEASE_VERSION == "2015.1.0-7.0" and CONF.NEUTRON_ENABLE:
+            settings = {
+                "net_provider": 'neutron',
+                "net_segment_type": CONF.NEUTRON_SEGMENT_TYPE
+            }
+
+        cluster_id = self.fuel_web.create_cluster(
+            name=self.__class__.__name__,
+            mode=CONF.DEPLOYMENT_MODE,
+            settings=settings
+        )
+
+        self.set_datera_attributes(self, cluster_id)
+
+        self.fuel_web.update_nodes(
+            cluster_id,
+            {
+                'slave-01': ['controller', 'cinder'],
+                'slave-02': ['controller', 'cinder'],
+                'slave-03': ['controller', 'cinder'],
+                'slave-04': ['compute'],
+                'slave-05': ['compute'],
+            }
+        )
+        self.fuel_web.verify_network(cluster_id)
+
+        self.fuel_web.client.delete_cluster(cluster_id)
         # should return 0 as it's not used
         self.remove_plugin_check(
             self.env.d_env.get_admin_remote(),
